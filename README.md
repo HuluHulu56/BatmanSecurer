@@ -28,6 +28,6 @@ The core security tool. It builds a customized Frida gadget (or server) with:
 
 ### JokerDecompiler
 
-A proof-of-concept inspection tool intended to function as a "standard" decompiler. Use this to test the effectiveness of your BatmanSecurer build. If BatmanSecurer is working correctly, JokerDecompiler should fail to produce readable output for your secured scripts.
+A proof-of-concept inspection tool intended to function as a "standard" decompiler. Use this to test the effectiveness of your BatmanSecurer build. If BatmanSecurer is working correctly, JokerDecompiler should fail to produce correct output for your secured scripts. The entire integration of JokerDecompiler is based on open source code that has been sitting on the internet for the past 6 years.
 
 [Go to JokerDecompiler](./JokerDecompiler/README.md)
