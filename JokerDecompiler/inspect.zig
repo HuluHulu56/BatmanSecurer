@@ -7,6 +7,8 @@ const c = @cImport({
 });
 
 extern fn inspect_obj_recursive(ctx: ?*c.JSContext, v: c.JSValue) void;
+extern fn inspect_dump_atoms(ctx: ?*c.JSContext) void;
+extern fn inspect_dump_objects(ctx: ?*c.JSContext) void;
 extern fn qjs_bc_version() c_int;
 extern fn inspect_set_dump_file(path: [*:0]const u8) c_int;
 extern fn inspect_close_dump_file() void;
@@ -114,6 +116,18 @@ fn makeDumpPath(allocator: std.mem.Allocator, input_path: []const u8) ![]u8 {
     return out_path;
 }
 
+fn printUsage(prog: []const u8) void {
+    std.debug.print(
+        "Usage: {s} [options] <file.js.compiled>\n" ++
+            "Options:\n" ++
+            "  -a    Dump all atoms\n" ++
+            "  -o    Dump all objects\n" ++
+            "  -f    Dump all functions bytecode\n" ++
+            "  -h    Show this help message\n",
+        .{prog},
+    );
+}
+
 pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
@@ -122,12 +136,47 @@ pub fn main() !void {
     const args = try std.process.argsAlloc(allocator);
     defer std.process.argsFree(allocator, args);
 
-    if (args.len < 2) {
-        std.debug.print("usage: {s} <bytecode-file>\n", .{args[0]});
+    var dump_atoms = false;
+    var dump_objects = false;
+    var dump_functions = false;
+    var input_path: ?[]const u8 = null;
+
+    var arg_idx: usize = 1;
+    while (arg_idx < args.len) : (arg_idx += 1) {
+        const arg = args[arg_idx];
+        if (std.mem.startsWith(u8, arg, "-")) {
+            for (arg[1..]) |flag| {
+                switch (flag) {
+                    'a' => dump_atoms = true,
+                    'o' => dump_objects = true,
+                    'f' => dump_functions = true,
+                    'h' => {
+                        printUsage(args[0]);
+                        std.process.exit(0);
+                    },
+                    else => {
+                        std.debug.print("Unknown option: -{c}\n", .{flag});
+                        printUsage(args[0]);
+                        std.process.exit(1);
+                    },
+                }
+            }
+        } else {
+            if (input_path != null) {
+                std.debug.print("Multiple files not supported\n", .{});
+                printUsage(args[0]);
+                std.process.exit(1);
+            }
+            input_path = arg;
+        }
+    }
+
+    if (input_path == null) {
+        printUsage(args[0]);
         std.process.exit(1);
     }
 
-    const path = args[1];
+    const path = input_path.?;
     const data = try readAll(allocator, path);
     defer allocator.free(data);
 
@@ -181,5 +230,7 @@ pub fn main() !void {
     }
     defer inspect_close_dump_file();
 
-    inspect_obj_recursive(ctx, obj);
+    if (dump_atoms) inspect_dump_atoms(ctx);
+    if (dump_objects) inspect_dump_objects(ctx);
+    if (dump_functions) inspect_obj_recursive(ctx, obj);
 }
