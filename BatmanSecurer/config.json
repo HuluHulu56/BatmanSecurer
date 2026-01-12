@@ -1,0 +1,21 @@
+{
+  "frida_version": "16.6.6",
+  "compile": {
+    "server": true,
+    "gadget": true,
+    "tools": false,
+    "python": false,
+    "portal": false
+  },
+  "options": {
+    "disable_v8": true
+  },
+  "build_custom_compiler": true,
+  "build_custom_dihcompiler": true,
+  "output_dir": "frida-16.6.6",
+  "shuffle_opcodes": true,
+  "atoms": {
+    "custom_encryption_key": "jonkler no teeth"
+  }
+}
+
