@@ -1,21 +1,33 @@
-# Intro
-idk.. like BatmanSecurer and JokerDecompiler... pretty self explenatory... JokerDecompiler decompiles your qjs bytecode into opcodes and reconstructs them... BatmanSecurer makes this impossible generating a gadget that uses custom opcodes.. so JokerDecompiler or any other decompiler will fail
-<img width="1344" height="768" alt="image" src="https://github.com/user-attachments/assets/280a010d-5f54-4d5a-afe2-8813e28090ae" />
+# BatmanSecurer
 
+## Table of Contents
 
+1. [Overview](#overview)
+2. [Components](#components)
 
-# Build
+---
 
-## Windows
-```bash
-cd JokerDecompiler
-zig build -Dtarget=x86_64-windows-gnu -Doptimize=ReleaseFast -Dbignum=true
-```
+## Overview
 
-## Linux
-```bash
-cd JokerDecompiler
-zig build -Doptimize=ReleaseFast -Dbignum=true
-```
+BatmanSecurer is a project dedicated to securing QuickJS bytecode against reverse engineering. It achieves this by modifying the QuickJS VM to use custom opcode tables and encryption, making standard analysis tools fail.
 
+This repository contains the Securer itself, along with a proof-of-concept Decompiler to verify the hardening results.
 
+---
+
+## Components
+
+### BatmanSecurer
+
+The core security tool. It builds a customized Frida gadget (or server) with:
+*   Opcode Shuffling: Randomizes instruction mapping.
+*   Atom Encryption: Encrypts strings and identifiers.
+*   Hardened Runtime: Prevents standard QuickJS tools from parsing the bytecode.
+
+[Go to BatmanSecurer](./BatmanSecurer/README.md)
+
+### JokerDecompiler
+
+A proof-of-concept inspection tool intended to function as a "standard" decompiler. Use this to test the effectiveness of your BatmanSecurer build. If BatmanSecurer is working correctly, JokerDecompiler should fail to produce readable output for your secured scripts.
+
+[Go to JokerDecompiler](./JokerDecompiler/README.md)
