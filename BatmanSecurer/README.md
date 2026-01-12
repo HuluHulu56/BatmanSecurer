@@ -20,10 +20,7 @@
 * `git` command-line tool
 * Standard build tools (`cc`, `make`, `cmake`, `ninja`)
 * `rich` Python module
-
-Optional:
-
-* Tarball `deps/quickjs.tar.gz` if QuickJS is not already present
+* Tarball `deps/quickjs.tar.gz`
 
 ---
 
