@@ -1,11 +1,5 @@
 # BatmanSecurer
 
-## Table of Contents
-
-1. [Overview](#overview)
-2. [Components](#components)
-
----
 
 ## Overview
 
@@ -31,3 +25,10 @@ The core security tool. It builds a customized Frida gadget (or server) with:
 A proof-of-concept inspection tool intended to function as a "standard" decompiler. Use this to test the effectiveness of your BatmanSecurer build. If BatmanSecurer is working correctly, JokerDecompiler should fail to produce correct output for your secured scripts. The entire integration of JokerDecompiler is based on open source code that has been sitting on the internet for the past 6 years.
 
 [Go to JokerDecompiler](./JokerDecompiler/README.md)
+
+---
+
+### ToDo
+*  Update the Proof-of-Concept decompiler (Joker) to reconstruct opcodes back into "readable" javascript (in progress)
+*  Proof-of-Concept reverse a Proof-of-Concept (Joker v2)
+*  Protect against Proof-of-Concepted Proof-of-Concept by making byte level obfuscation on top of Batman (Batman v2)
