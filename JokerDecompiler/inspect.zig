@@ -8,6 +8,8 @@ const c = @cImport({
 
 extern fn inspect_obj_recursive(ctx: ?*c.JSContext, v: c.JSValue) void;
 extern fn qjs_bc_version() c_int;
+extern fn inspect_set_dump_file(path: [*:0]const u8) c_int;
+extern fn inspect_close_dump_file() void;
 
 fn dumpException(ctx: *c.JSContext) void {
     const exc = c.JS_GetException(ctx);
@@ -68,6 +70,50 @@ fn makeArgv(allocator: std.mem.Allocator, args: []const []const u8) !struct {
     return .{ .argv = argv, .zargs = zargs };
 }
 
+fn splitDirBase(path: []const u8) struct { dir: []const u8, base: []const u8 } {
+    var last_sep: ?usize = null;
+    for (path, 0..) |ch, i| {
+        if (ch == '/' or ch == '\\') last_sep = i;
+    }
+
+    if (last_sep) |idx| {
+        return .{ .dir = path[0..idx], .base = path[idx + 1 ..] };
+    }
+    return .{ .dir = "", .base = path };
+}
+
+fn stemNoExt(base: []const u8) []const u8 {
+    var last_dot: ?usize = null;
+    for (base, 0..) |ch, i| {
+        if (ch == '.') last_dot = i;
+    }
+    if (last_dot) |idx| {
+        if (idx == 0) return base;
+        return base[0..idx];
+    }
+    return base;
+}
+
+fn makeDumpPath(allocator: std.mem.Allocator, input_path: []const u8) ![]u8 {
+    const parts = splitDirBase(input_path);
+    const stem = stemNoExt(parts.base);
+    const out_name = try std.mem.concat(allocator, u8, &.{ stem, "-dump.txt" });
+    errdefer allocator.free(out_name);
+
+    if (parts.dir.len == 0) return out_name;
+
+    const sep: []const u8 = std.fs.path.sep_str;
+    if (parts.dir.len > 0 and (parts.dir[parts.dir.len - 1] == '/' or parts.dir[parts.dir.len - 1] == '\\')) {
+        const out_path = try std.mem.concat(allocator, u8, &.{ parts.dir, out_name });
+        allocator.free(out_name);
+        return out_path;
+    }
+
+    const out_path = try std.mem.concat(allocator, u8, &.{ parts.dir, sep, out_name });
+    allocator.free(out_name);
+    return out_path;
+}
+
 pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
@@ -123,6 +169,17 @@ pub fn main() !void {
         std.process.exit(1);
     }
     defer c.JS_FreeValue(ctx, obj);
+
+    const dump_path = try makeDumpPath(allocator, path);
+    defer allocator.free(dump_path);
+    const dump_z = try allocator.dupeZ(u8, dump_path);
+    defer allocator.free(dump_z);
+
+    if (inspect_set_dump_file(dump_z.ptr) != 0) {
+        std.debug.print("error: could not open dump file: {s}\n", .{dump_path});
+        std.process.exit(1);
+    }
+    defer inspect_close_dump_file();
 
     inspect_obj_recursive(ctx, obj);
 }
