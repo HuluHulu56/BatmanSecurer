@@ -71,8 +71,11 @@ void inspect_obj_recursive(JSContext *ctx, JSValue v)
 
     if (tag == JS_TAG_FUNCTION_BYTECODE) {
         JSFunctionBytecode *bc = JS_VALUE_GET_PTR(v);
-        if (bc)
+        if (bc) {
+            tee_printf("=== Dumping function bytecode ===\n");
             js_dump_function_bytecode(ctx, bc);
+            tee_printf("=== End dump ===\n");
+        }
     }
 
     if (tag == JS_TAG_FUNCTION_BYTECODE) {
@@ -87,9 +90,9 @@ void inspect_obj_recursive(JSContext *ctx, JSValue v)
 void inspect_dump_atoms(JSContext *ctx)
 {
     JSRuntime *rt = ctx->rt;
-    printf("=== Dumping all atoms ===\n");
+    tee_printf("=== Dumping all atoms ===\n");
     JS_DumpAtoms(rt);
-    printf("=== End atom dump ===\n");
+    tee_printf("=== End atom dump ===\n");
 }
 
 void inspect_dump_objects(JSContext *ctx)
@@ -98,7 +101,7 @@ void inspect_dump_objects(JSContext *ctx)
     struct list_head *el;
     JSGCObjectHeader *p;
 
-    printf("=== Dumping all JSObjects ===\n");
+    tee_printf("=== Dumping all JSObjects ===\n");
     JS_DumpObjectHeader(rt);
 
     list_for_each(el, &rt->gc_obj_list) {
@@ -106,7 +109,7 @@ void inspect_dump_objects(JSContext *ctx)
         JS_DumpGCObject(rt, p);
     }
 
-    printf("=== End JSObjects dump ===\n");
+    tee_printf("=== End JSObjects dump ===\n");
 }
 
 int qjs_bc_version(void)

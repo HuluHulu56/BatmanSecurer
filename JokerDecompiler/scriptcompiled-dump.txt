@@ -1,0 +1,115 @@
+=== Dumping function bytecode ===
+/zupa.js:1: function: <eval>
+  mode: strict
+  locals:
+    0: var <ret>
+  stack_size: 3
+  opcodes:
+    0  3F EC 01 00 00 80          check_define_var ship,128
+    6  3F ED 01 00 00 80          check_define_var ping,128
+   12  3F EE 01 00 00 80          check_define_var pong,128
+   18  3F EF 01 00 00 80          check_define_var snap,128
+   24  3F F0 01 00 00 40          check_define_var penis,64
+   30  3F F1 01 00 00 80          check_define_var p,128
+   36  3F F2 01 00 00 80          check_define_var e,128
+   42  3F F3 01 00 00 80          check_define_var n,128
+   48  3F F4 01 00 00 80          check_define_var i,128
+   54  3F F5 01 00 00 80          check_define_var s,128
+   60  3E EC 01 00 00 80          define_var ship,128
+   66  3E ED 01 00 00 80          define_var ping,128
+   72  3E EE 01 00 00 80          define_var pong,128
+   78  3E EF 01 00 00 80          define_var snap,128
+   84  C2 00                      fclosure8 0: [bytecode penis]
+   86  40 F0 01 00 00 00          define_func penis,0
+   92  3E F1 01 00 00 82          define_var p,130
+   98  3E F2 01 00 00 82          define_var e,130
+  104  3E F3 01 00 00 82          define_var n,130
+  110  3E F4 01 00 00 82          define_var i,130
+  116  3E F5 01 00 00 82          define_var s,130
+  122  38 E8 01 00 00             get_var console
+  127  42 E7 01 00 00             get_field2 log
+  132  04 F6 01 00 00             push_atom_value hellow
+  137  24 01 00                   call_method 1
+  140  CB                         put_loc0 0: 
+  141  04 F7 01 00 00             push_atom_value asdf
+  146  3A EC 01 00 00             put_var_init ship
+  151  04 F8 01 00 00             push_atom_value jkl
+  156  3A ED 01 00 00             put_var_init ping
+  161  BA                         push_3 3
+  162  3A EE 01 00 00             put_var_init pong
+  167  BF 09                      push_i8 9
+  169  3A EF 01 00 00             put_var_init snap
+  174  38 F0 01 00 00             get_var penis
+  179  BC                         push_5 5
+  180  B9                         push_2 2
+  181  F2                         call2 2
+  182  3A F1 01 00 00             put_var_init p
+  187  38 F0 01 00 00             get_var penis
+  192  38 EE 01 00 00             get_var pong
+  197  38 EF 01 00 00             get_var snap
+  202  F2                         call2 2
+  203  3A F2 01 00 00             put_var_init e
+  208  38 EC 01 00 00             get_var ship
+  213  38 ED 01 00 00             get_var ping
+  218  9E                         add
+  219  3A F3 01 00 00             put_var_init n
+  224  C1 01                      push_const8 1: 0.75
+  226  3A F4 01 00 00             put_var_init i
+  231  BD                         push_6 6
+  232  BE                         push_7 7
+  233  26 02 00                   array_from 2
+  236  3A F5 01 00 00             put_var_init s
+  241  C7                         get_loc0 0: 
+  242  28                         return
+   PC  LINE
+   60     0
+  122     1
+  141     3
+  151     4
+  161     5
+  167     6
+  174    16
+  187    17
+  208    18
+  224    19
+  231    20
+
+=== End dump ===
+=== Dumping function bytecode ===
+/zupa.js:8: function: penis
+  mode: strict
+  args: a b
+  stack_size: 4
+  opcodes:
+    0  38 E8 01 00 00             get_var console
+    5  42 E7 01 00 00             get_field2 log
+   10  D3                         get_arg0 0: a
+   11  D4                         get_arg1 1: b
+   12  9E                         add
+   13  24 01 00                   call_method 1
+   16  0E                         drop
+   17  38 E8 01 00 00             get_var console
+   22  42 E7 01 00 00             get_field2 log
+   27  D3                         get_arg0 0: a
+   28  D4                         get_arg1 1: b
+   29  9B                         mul
+   30  24 01 00                   call_method 1
+   33  0E                         drop
+   34  38 E8 01 00 00             get_var console
+   39  42 E7 01 00 00             get_field2 log
+   44  D3                         get_arg0 0: a
+   45  D4                         get_arg1 1: b
+   46  9F                         sub
+   47  24 01 00                   call_method 1
+   50  0E                         drop
+   51  D3                         get_arg0 0: a
+   52  D4                         get_arg1 1: b
+   53  9C                         div
+   54  28                         return
+   PC  LINE
+    0     9
+   17    10
+   34    11
+   51    13
+
+=== End dump ===

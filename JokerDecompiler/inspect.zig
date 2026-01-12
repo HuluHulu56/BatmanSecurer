@@ -233,4 +233,9 @@ pub fn main() !void {
     if (dump_atoms) inspect_dump_atoms(ctx);
     if (dump_objects) inspect_dump_objects(ctx);
     if (dump_functions) inspect_obj_recursive(ctx, obj);
+
+    if (!dump_atoms and !dump_objects and !dump_functions) {
+        std.debug.print("No dump options specified (-a, -o, -f). No output will be generated.\n", .{});
+        printUsage(args[0]);
+    }
 }
