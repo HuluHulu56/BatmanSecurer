@@ -52,7 +52,7 @@ The binary is output to `zig-out/bin/inspect`.
 | :--- | :--- |
 | `-a` | Dump atoms |
 | `-o` | Dump objects |
-| `-f` | Dump function bytecode |
+| `-f` | Dump functions bytecodes |
 | `-h` | Help |
 
 ---
