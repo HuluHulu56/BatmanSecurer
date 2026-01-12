@@ -219,7 +219,7 @@ Steps executed:
 
 **Q: Why does my Gadget crash?**
 
-* This usually happens because the script you are running was **not compiled with our custom `comper` tool**. Only bytecode produced by `comper` is compatible with the final gadget. Scripts compiled using the official `frida-compile` Python API or other methods are **not** compatible, thus causing a crash.
+* This usually happens because the script you are running or feeding your gadget was **not compiled with our custom `comper` tool**. Only bytecode produced by `comper` is compatible with the final gadget. Scripts compiled using the official `frida-compile` Python API or other methods are **not** compatible, thus causing a crash.
 
 **Q: Why can `./dihcomper` decompile my custom-compiled scripts?**
 
