@@ -28,6 +28,9 @@
 #include <string.h>
 #include <assert.h>
 
+/* Disable AVX2 code path - it requires FMA which VMs often don't expose */
+#undef __AVX2__
+
 #ifdef __AVX2__
 #include <immintrin.h>
 #endif
