@@ -39,3 +39,7 @@ A proof-of-concept inspection tool intended to function as a "standard" decompil
 
 ---
 
+### Contact
+
+If any problems occur, or you simply just wanna compliment our work, feel free to reach out to us on discord @HuluHulu56 or @0xjackass
+
